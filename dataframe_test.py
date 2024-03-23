@@ -11,9 +11,12 @@ if now.hour == 0:
 elif now.hour > 12:
     standard_hour = now.hour - 12
     AM_PM = 'PM'
-else:
+elif now.hour == 12:
     standard_hour = 12
     AM_PM = 'PM'
+else:
+    standard_hour = now.hour
+    AM_PM = 'AM'
 
 if now.minute < 10:
     standard_minute = '0' + str(now.minute)
