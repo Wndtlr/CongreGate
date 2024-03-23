@@ -1,2 +1,2 @@
-# AggreGate
+# CongreGate
 A repository for a project for GateHacks'2024. This project aims to record and share the amount of students entering and leaving Frank Dining Hall. This would allow students to make informed decisions on when they want to eat at Frank Dining Hall. In the future, this application and hardware can be expanded to also accomodate locations such as the Coop, Huntington gym, and Case-Geyer Library. This program is helpful to students who may want a quieter experience at these locations. 
