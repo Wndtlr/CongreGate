@@ -50,4 +50,6 @@ data = {
 
 dataframe = pd.DataFrame(data).transpose()
 
+dataframe.to_csv("dataframe.csv")
+
 print(dataframe) 
