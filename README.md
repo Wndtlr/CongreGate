@@ -11,3 +11,9 @@ CongreGate uses non-invasive sensors to estimate and track the number of people 
 CongreGate is still currently a prototype designed for estimating the capacity of Frank Dining Hall.
 
 ## How:
+
+
+## Future Directions:
+
+
+## The Team:
