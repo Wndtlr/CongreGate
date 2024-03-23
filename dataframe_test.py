@@ -40,15 +40,14 @@ def get_time() -> str:
 time = get_time()
 
 data = {
-  "Frank Dining Hall" : {"Capacity": capacity, "LastUpdate":str(time)},
+  "Frank Dining Hall" : {"Capacity": capacity, "Last Update":str(time)},
+  "Coop" : {"Capacity": capacity, "Last Update":str(time)},
   # "Location": ["Frank Dining Hall"],
   # "Capacity": [capacity],
   # "LastUpdate": [str(time)],
   # f"{time}": [capacity],
 }
 
-dataframe = pd.DataFrame(data)
-
-#dataframe = pd.DataFrame(data, index = ["Frank Dining Hall"])
+dataframe = pd.DataFrame(data).transpose()
 
 print(dataframe) 
