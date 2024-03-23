@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+
+<html>
+
+
+<head>
+    <title>CongreGate</title>
+</head>
+
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+</style>
+
+<body>
+    <h1>Welcome to CongreGate!</h1>
+    <p>Your one stop for Dining Hall availability</p>
+</body>
+
+<h2>Location Capacities</h2>
+
+<table style = "width:50%", border = "1">
+  <thead>
+    <tr>
+        <th>Location</th>
+        <th>Capacity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="row : ${csvData}">
+        <td th:each="cell : ${row}" th:text="${cell}">Data</td>
+    </tr>
+  </tbody>
+
+</table>
+
+</html>
