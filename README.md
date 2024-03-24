@@ -25,3 +25,9 @@ Jack Polak '27
 Dan Kim '24
 Lawrence Qin '24
 Oliver Smith '24
+
+## Additional Links
+
+https://docs.google.com/presentation/d/1qfK-E5H9r-6YNXfIoi0Oy4HkZ4l-L5dDLjiwdJg8g8M/edit
+https://drive.google.com/file/d/1MrsK58jjv4WD4gya8M7RTrjxAydmY_Yx/view?usp=drivesdk
+
