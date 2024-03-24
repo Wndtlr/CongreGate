@@ -21,6 +21,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.opencsv:opencsv:5.9'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'com.fazecast:jSerialComm:2.10.4'
 }
 
 tasks.named('test') {

@@ -14,13 +14,78 @@ import java.util.List;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
+import com.fazecast.jSerialComm.*;
+
 
 @Controller
-public class CSVController {
+public class CSVController implements Runnable {
+    private Thread pythonThread; 
+
+    @PostConstruct
+    public void init() {
+        // Start the Python script execution thread
+        pythonThread = new Thread(this);
+        pythonThread.start();
+    }
+
+    @PreDestroy
+    public void destroy() {
+        // Stop the Python script execution thread 
+        if (pythonThread != null && pythonThread.isAlive()) {
+            pythonThread.interrupt();
+            try {
+                pythonThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
+    @Override
+    public void run() {
+        try {
+            // Execute Python script continuously
+            while (!Thread.currentThread().isInterrupted()) {
+                ProcessBuilder processBuilder = new ProcessBuilder("python", "/Users/dankim/Documents/CodeGate2024/Frankfully/congregate/src/main/resources/scripts/dataframe.py");
+                Process process = processBuilder.start();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                if((line = reader.readLine()) == null){
+                    System.out.println("not reading lines");
+                }
+                while ((line = reader.readLine()) != null) {
+                    // Process output from Python script (if needed)
+                    System.out.println("Output from Python: " + line);
+                }
+
+                // Wait for Python script to finish
+                int exitCode = process.waitFor();
+                if (exitCode != 0) {
+                    System.err.println("Failed to execute Python script.");
+                    BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                    while ((line = errorReader.readLine()) != null) {
+                        // Print error message from Python script
+                        System.err.println("Error output from Python: " + line);
+                    }
+                }
+
+                // Add a delay before restarting the script 
+                Thread.sleep(1000);
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt(); // Restore interrupted status
+        }
+    }
+
     @GetMapping("/display")
    public String displayTable(Model model) {
         CSVReader reader = null;
+        /* 
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("python", "/Users/dankim/Documents/CodeGate2024/Frankfully/congregate/src/main/resources/scripts/dataframe.py");
 
@@ -56,12 +121,13 @@ public class CSVController {
                 model.addAttribute("message", "Failed to execute Python script.");
                 System.out.println("help");
             }
-
+        */
+        try{
             // reader = new CSVReader(new FileReader("src/main/resources/data/df.csv"));
             reader = new CSVReader(new FileReader("/Users/dankim/Documents/CodeGate2024/Frankfully/congregate/src/main/resources/data/df.csv"));
             List<String[]> rows = reader.readAll();
             model.addAttribute("data", rows);
-        } catch (IOException | CsvException | InterruptedException  e) { 
+        } catch (IOException | CsvException e) { 
             e.printStackTrace();
         }
         finally {
