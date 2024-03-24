@@ -43,22 +43,22 @@ public class CSVController implements Runnable {
             }
         }
     }
-    
+    /* 
     @Override
     public void run() {
         try {
             // Execute Python script continuously
             while (!Thread.currentThread().isInterrupted()) {
+                System.out.println("threading");
                 ProcessBuilder processBuilder = new ProcessBuilder("python", "/Users/dankim/Documents/CodeGate2024/Frankfully/congregate/src/main/resources/scripts/dataframe.py");
                 Process process = processBuilder.start();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 String line;
-                if((line = reader.readLine()) == null){
-                    System.out.println("not reading lines");
+                if ((line = reader.readLine()) == null){
+                    System.out.println("no lines");
                 }
                 while ((line = reader.readLine()) != null) {
-                    // Process output from Python script (if needed)
                     System.out.println("Output from Python: " + line);
                 }
 
@@ -71,6 +71,11 @@ public class CSVController implements Runnable {
                         // Print error message from Python script
                         System.err.println("Error output from Python: " + line);
                     }
+                    if ((line = errorReader.readLine()) == null){
+                    }
+                }
+                else{ 
+                    System.out.println("exit 0 ");
                 }
 
                 // Add a delay before restarting the script 
@@ -81,7 +86,38 @@ public class CSVController implements Runnable {
             Thread.currentThread().interrupt(); // Restore interrupted status
         }
     }
+*/
+    @Override
+    public void run() {
+    try {
+        while (!Thread.currentThread().isInterrupted()) {
+            ProcessBuilder processBuilder = new ProcessBuilder("python", "/Users/dankim/Documents/CodeGate2024/Frankfully/congregate/src/main/resources/scripts/dataframe.py");
+            processBuilder.redirectErrorStream(true); // Merge error stream with output stream
+            Process process = processBuilder.start();
 
+            // Capture output from Python script
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Process output from Python script (if needed)
+                System.out.println("Output from Python: " + line);
+            }
+
+            // Wait for Python script to finish
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                // Print error message if the Python script exits with a non-zero exit code
+                System.err.println("Failed to execute Python script. Exit code: " + exitCode);
+            }
+
+            // Add a delay before restarting the script (adjust as needed)
+            Thread.sleep(1000);
+        }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt(); // Restore interrupted status
+        }
+    }
     @GetMapping("/display")
    public String displayTable(Model model) {
         CSVReader reader = null;
