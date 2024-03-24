@@ -1,22 +1,25 @@
 import pandas as pd
 import datetime
+import serial
+import time
+
 
 people = 0
-increment = 0 #will receive increment from hardware software
-
+increment = 0
 def people_count(people: int, increment: int) -> int:
   people += increment
   return people
 
 def capacity_calc(people:int) -> str:
-  if people <= 50:
-    return 'Low Capacity'
-  elif people > 50 and people <= 100:
-    return 'Medium Capacity'
-  elif people > 100 and people <= 150:
-    return 'High Capacity'
-  else:
-    return 'Packed'
+  #return str(people)
+   if people <= 50:
+     return 'Low Capacity'
+   elif people > 50 and people <= 100:
+     return 'Medium Capacity'
+   elif people > 100 and people <= 150:
+     return 'High Capacity'
+   else:
+     return 'Packed'
 
 def get_time() -> str:
   now = datetime.datetime.now() 
@@ -40,25 +43,36 @@ def get_time() -> str:
 
   return str(standard_hour) + ':' + standard_minute + AM_PM
 
-people = people_count(people, increment)
+ser = serial.Serial('/dev/cu.usbmodem101', 9600)
 
-people = 100 #test number, variable 'people' will show current count
+while(True):
+  increment=0
+  if ser.in_waiting !=0:
+    increment = int(ser.readline().decode('utf-8'.rstrip()))
+  
+  if(people ==0 and increment == -1):
+    increment=0
 
-capacity = capacity_calc(people)
+  people = people_count(people, increment)
 
-time = get_time()
+  #people = 100 #test number, variable 'people' will show current count
 
-data = {
-  "Frank Dining Hall" : {"Capacity": capacity, "Last Update":str(time)},
-  "Coop" : {"Capacity": capacity, "Last Update":str(time)},
-  # "Location": ["Frank Dining Hall"],
-  # "Capacity": [capacity],
-  # "LastUpdate": [str(time)],
-  # f"{time}": [capacity],
-}
+  capacity = capacity_calc(people)
 
-dataframe = pd.DataFrame(data).transpose()
+  current_time = get_time()
 
-dataframe.to_csv("Frankfully/congregate/src/main/resources/data/df.csv")
+  data = {
+    "Frank Dining Hall" : {"Capacity": capacity, "Last Update":str(current_time)},
+    #"Coop" : {"Capacity": capacity, "Last Update":str(current_time)},
+    # "Location": ["Frank Dining Hall"],
+    # "Capacity": [capacity],
+    # "LastUpdate": [str(current_time)],
+    # f"{current_time}": [capacity],
 
-print(dataframe) 
+  }
+  dataframe = pd.DataFrame(data).transpose()
+
+  dataframe.to_csv("Frankfully/congregate/src/main/resources/data/df.csv")
+
+  print(dataframe) 
+  time.sleep(0.5)
