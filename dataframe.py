@@ -1,7 +1,12 @@
 import pandas as pd
 import datetime
 
-people = 100 #test number, variable 'people' will show current count
+people = 0
+increment = 0 #will receive increment from hardware software
+
+def people_count(people: int, increment: int) -> int:
+  people += increment
+  return people
 
 def capacity_calc(people:int) -> str:
   if people <= 50:
@@ -12,8 +17,6 @@ def capacity_calc(people:int) -> str:
     return 'High Capacity'
   else:
     return 'Packed'
-  
-capacity = capacity_calc(people)
 
 def get_time() -> str:
   now = datetime.datetime.now() 
@@ -36,6 +39,12 @@ def get_time() -> str:
      standard_minute = str(now.minute)
 
   return str(standard_hour) + ':' + standard_minute + AM_PM
+
+people = people_count(people, increment)
+
+people = 100 #test number, variable 'people' will show current count
+
+capacity = capacity_calc(people)
 
 time = get_time()
 
