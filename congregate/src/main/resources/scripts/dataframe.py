@@ -40,8 +40,8 @@ def get_time() -> str:
 time = get_time()
 
 data = { #this is hard coded for rn 
-  "Frank Dining Hall" : {"Capacity": capacity, "Last Update":str(time)},
-  "Coop" : {"Capacity": capacity, "Last Update":str(time)},
+  "Frank Dining Hall" : {"Count": people, "Capacity": capacity, "Last Update":str(time)},
+  "Coop" : {"Count": people, "Capacity": capacity, "Last Update":str(time)},
   # "Location": ["Frank Dining Hall"],
   # "Capacity": [capacity],
   # "LastUpdate": [str(time)],

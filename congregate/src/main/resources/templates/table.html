@@ -6,16 +6,37 @@
     <title>CongreGate</title>
 </head>
 
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>
+				Welcome To CongreGate!
+			</h1>
+			<p>
+                Say gooodbye to aggregious Frank lines
+			</p>
+		</div>
+	</div>
 
-<body>
-    <h1>Welcome to CongreGate</h1>
-    <p>Your one stop for the dining hall capacities</p>
-    <table border="1">
-        <tbody>
-            <tr th:each="row : ${data}">
-                <td th:each="cell : ${row}" th:text="${cell}"></td>
-            </tr>
-        </tbody>
-    </table>
-</body>
-</html>
+
+	<div class="row">
+		<div class="col-md-6">
+            <h3> 
+                Current Capacities:
+            </h3>
+			<table border="1">
+                <tbody>
+                    <tr th:each="row : ${data}">
+                        <td th:each="cell : ${row}" th:text="${cell}"></td>
+                    </tr>
+                </tbody>
+            </table>
+		</div>
+        <br>
+		<div class="col-md-6"> 
+			<form th:action="@{/display}" >
+                <button type="submit" class="btn btn-outline-sucess">Refresh</button>
+            </form>
+		</div>
+	</div>
+</div>
