@@ -50,6 +50,6 @@ data = {
 
 dataframe = pd.DataFrame(data).transpose()
 
-dataframe.to_csv("dataframe.csv")
+dataframe.to_csv("congregate/src/main/resources/data/df.csv")
 
 print(dataframe) 
