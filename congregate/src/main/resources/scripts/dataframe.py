@@ -2,10 +2,20 @@ import pandas as pd
 import datetime
 import serial
 import time
-
+import signal
+import sys
 
 people = 0
 increment = 0
+
+def signal_handler(sig, frame):
+    print('Received termination signal. Exiting gracefully.')
+    # Perform any cleanup or finalization here
+    sys.exit(0)
+
+signal.signal(signal.SIGTERM, signal_handler)
+signal.signal(signal.SIGINT, signal_handler)
+
 def people_count(people: int, increment: int) -> int:
   people += increment
   return people
@@ -45,34 +55,37 @@ def get_time() -> str:
 
 ser = serial.Serial('/dev/tty.usbmodem143301', 9600)
 
-while(True):
-  increment=0
-  if ser.in_waiting !=0:
-    increment = int(ser.readline().decode('utf-8'.rstrip()))
-  
-  if(people ==0 and increment == -1):
-    increment=0
+try:
+    while True:
+      increment=0
+      if ser.in_waiting !=0:
+        increment = int(ser.readline().decode('utf-8'.rstrip()))
+      
+      if(people ==0 and increment == -1):
+        increment=0
 
-  people = people_count(people, increment)
+      people = people_count(people, increment)
 
-  #people = 100 #test number, variable 'people' will show current count
+      #people = 100 #test number, variable 'people' will show current count
 
-  capacity = capacity_calc(people)
+      capacity = capacity_calc(people)
 
-  current_time = get_time()
+      current_time = get_time()
 
-  data = {
-    "Frank Dining Hall" : {"Count": people, "Capacity": capacity, "Last Update":str(current_time)},
-    #"Coop" : {"Capacity": capacity, "Last Update":str(current_time)},
-    # "Location": ["Frank Dining Hall"],
-    # "Capacity": [capacity],
-    # "LastUpdate": [str(current_time)],
-    # f"{current_time}": [capacity],
+      data = {
+        "Frank Dining Hall" : {"Count": people, "Capacity": capacity, "Last Update":str(current_time)},
+        #"Coop" : {"Capacity": capacity, "Last Update":str(current_time)},
+        # "Location": ["Frank Dining Hall"],
+        # "Capacity": [capacity],
+        # "LastUpdate": [str(current_time)],
+        # f"{current_time}": [capacity],
 
-  }
-  dataframe = pd.DataFrame(data).transpose()
+      }
+      dataframe = pd.DataFrame(data).transpose()
 
-  dataframe.to_csv("/Users/dankim/Documents/CodeGate2024/Frankfully/congregate/src/main/resources/data/df.csv")
+      dataframe.to_csv("/Users/dankim/Documents/CodeGate2024/Frankfully/congregate/src/main/resources/data/df.csv")
+except KeyboardInterrupt:
+    print("KeyboardInterrupt received. Exiting.")
+    sys.exit(0)
 
-  print(dataframe) 
-  time.sleep(0.5)
+  #print(dataframe) 
