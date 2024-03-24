@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CongreGate</title>
+</head>
+
+
+<body>
+    <h1>Welcome to CongreGate</h1>
+    <p>Your one stop for the dining hall capacities</p>
+    <table border="1">
+        <tbody>
+            <tr th:each="row : ${data}">
+                <td th:each="cell : ${row}" th:text="${cell}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

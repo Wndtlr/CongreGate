@@ -1,10 +1,10 @@
-package com.example.frankfully.frankfully;
+package com.congregate.congregate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FrankfullyApplicationTests {
+class CongregateApplicationTests {
 
 	@Test
 	void contextLoads() {
