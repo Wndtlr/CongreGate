@@ -13,8 +13,15 @@ CongreGate is still currently a prototype designed for estimating the capacity o
 
 ## How:
 
+The CongreGate program uses input from two ultrasonic distance sensors to determine whether someone has entered or exited a location. The value of "1" (entered) or "0" (exited) is then transferred via Bluetooth to a laptop where the amount of people in a location is updated. The amount of people present in a location is updated on the table present on the web application as well as the time of the last update. 
 
 ## Future Directions:
 
+CongreGate has many opportunities for scaling up, including hardware and software upgrades. For hardware, we could replace the ultrasonic sensors with more accurate hardware, as well as having the hardware present at more locations on campus. For software, we can support more locations, facilities with multiple floors, use long-term data to calculate averages occupancies for each hour and calculate overall peak hours to better inform students, as well as creating a mobile app to make it easier to access. 
 
 ## The Team:
+
+Jack Polak '27
+Dan Kim '24
+Lawrence Qin '24
+Oliver Smith '24
